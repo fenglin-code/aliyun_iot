@@ -1,0 +1,57 @@
+C51 COMPILER V9.60.0.0   SYSTEM                                                            04/20/2020 00:12:51 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SYSTEM
+OBJECT MODULE PLACED IN .\Objects\system.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE lib\system.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\lib) DEBUG OBJECTEXTEND PRIN
+                    -T(.\Listings\system.lst) OBJECT(.\Objects\system.obj)
+
+line level    source
+
+   1          #include "headfile.h"
+   2          
+   3          
+   4          void system_init()
+   5          {
+   6   1              XBYTE[0xa000] = 0x00;
+   7   1              XBYTE[0x8000] = 0xff;
+   8   1      }
+   9          
+  10          void Timer0Init(void)           //1毫秒@12.000MHz
+  11          {
+  12   1              AUXR |= 0x80;           //定时器时钟1T模式
+  13   1              TMOD &= 0xF0;           //设置定时器模式
+  14   1              TL0 = 0x20;             //设置定时初值
+  15   1              TH0 = 0xD1;             //设置定时初值
+  16   1              TF0 = 0;                //清除TF0标志
+  17   1              TR0 = 1;                //定时器0开始计时
+  18   1              ET0 = 1;
+  19   1      }
+  20          
+  21          void UartInit(void)             //115200bps@12.000MHz
+  22          {
+  23   1              SCON = 0x50;            //8位数据,可变波特率
+  24   1              AUXR |= 0x40;           //定时器1时钟为Fosc,即1T
+  25   1              AUXR &= 0xFE;           //串口1选择定时器1为波特率发生器
+  26   1              TMOD &= 0x0F;           //设定定时器1为16位自动重装方式
+  27   1              TL1 = 0xE6;             //设定定时初值
+  28   1              TH1 = 0xFF;             //设定定时初值
+  29   1              ET1 = 0;                //禁止定时器1中断
+  30   1              TR1 = 1;                //启动定时器1
+  31   1              ES = 1;
+  32   1              IP |= 0x10;
+  33   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     59    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

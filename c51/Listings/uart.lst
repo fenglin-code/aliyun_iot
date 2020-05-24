@@ -1,0 +1,40 @@
+C51 COMPILER V9.60.0.0   UART                                                              04/20/2020 21:39:24 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\Objects\uart.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE lib\uart.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\lib) DEBUG OBJECTEXTEND PRINT(
+                    -.\Listings\uart.lst) OBJECT(.\Objects\uart.obj)
+
+line level    source
+
+   1          #include "headfile.h"
+   2          
+   3          bit busy = 0;
+   4          
+   5          void UART1_SendData(uchar dat)
+   6          {
+   7   1          while (busy);
+   8   1          busy = 1;
+   9   1          SBUF = dat;    
+  10   1      }
+  11          
+  12          char putchar(char c)
+  13          {
+  14   1              UART1_SendData(c);
+  15   1              return c;
+  16   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     13    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

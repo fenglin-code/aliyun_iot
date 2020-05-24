@@ -1,0 +1,1 @@
+"lib\display.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\lib) DEBUG OBJECTEXTEND PRINT(.\Listings\display.lst) OBJECT(.\Objects\display.obj)

@@ -1,0 +1,40 @@
+C51 COMPILER V9.60.0.0   DISPLAY                                                           04/20/2020 00:12:51 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE DISPLAY
+OBJECT MODULE PLACED IN .\Objects\display.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE lib\display.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\lib) DEBUG OBJECTEXTEND PRI
+                    -NT(.\Listings\display.lst) OBJECT(.\Objects\display.obj)
+
+line level    source
+
+   1          #include "headfile.h"
+   2          
+   3          code uchar tab[] = {0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90};
+   4          uchar showbuff[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+   5          
+   6          
+   7          void show_xbyte(void)
+   8          {
+   9   1              static uchar i=0;
+  10   1              
+  11   1              XBYTE[0xe000] = 0xff;
+  12   1              XBYTE[0xc000] = (1<<i);
+  13   1              XBYTE[0xe000] = showbuff[i];
+  14   1              
+  15   1              if (++i > 7) i=0;
+  16   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     50    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

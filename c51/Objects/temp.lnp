@@ -1,0 +1,8 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\onewire.obj",
+".\Objects\display.obj",
+".\Objects\system.obj",
+".\Objects\uart.obj" 
+TO ".\Objects\temp" 
+PRINT(".\Listings\temp.m51") RAMSIZE(256) 

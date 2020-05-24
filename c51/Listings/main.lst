@@ -1,0 +1,91 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              04/20/2020 22:39:25 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\lib) DEBUG OBJECTEXTEND PRINT(.\Li
+                    -stings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "headfile.h"
+   2          
+   3          uint ms=0;
+   4          extern uchar showbuff[];
+   5          extern code uchar tab[];
+   6          uchar ledval=0x01;
+   7          extern bit busy;
+   8          uint temp;
+   9          
+  10          
+  11          int main(void)
+  12          {
+  13   1              system_init();
+  14   1              Timer0Init();           
+  15   1              UartInit();     
+  16   1              temp = rd_temperature();        
+  17   1          showbuff[4] = tab[temp/1000%10];
+  18   1              showbuff[5] = tab[temp/100%10] & 0x7f;
+  19   1              showbuff[6] = tab[temp/10%10];
+  20   1              showbuff[7] = tab[temp%10];
+  21   1              EA = 1;
+  22   1                      
+  23   1              for (;;)
+  24   1              {
+  25   2              XBYTE[0x8000] = ledval;
+  26   2                      temp = rd_temperature();
+  27   2                      showbuff[4] = tab[temp/1000%10];
+  28   2                      showbuff[5] = tab[temp/100%10] & 0x7f;
+  29   2                      showbuff[6] = tab[temp/10%10];
+  30   2                      showbuff[7] = tab[temp%10];
+  31   2              while (ms < 2000);
+  32   2              ms = 0;
+  33   2                      printf("%d",temp);
+  34   2              }
+  35   1      }
+  36          
+  37          void isr_timer0(void) interrupt 1
+  38          {
+  39   1              ms++;
+  40   1              show_xbyte();
+  41   1      }
+  42          
+  43          void isr_uart(void) interrupt 4
+  44          {       
+  45   1          static uchar i;
+  46   1          static uchar FIFO;
+  47   1              if (RI)
+  48   1              {
+  49   2                      FIFO = SBUF;
+  50   2              showbuff[0] = tab[FIFO/100%10];
+  51   2              showbuff[1] = tab[FIFO/10%10];
+  52   2              showbuff[2] = tab[FIFO%10];
+  53   2                      RI = 0;
+  54   2              }
+C51 COMPILER V9.60.0.0   MAIN                                                              04/20/2020 22:39:25 PAGE 2   
+
+  55   1              if (TI)
+  56   1              {
+  57   2              busy = 0;
+  58   2              if (++i>3) 
+  59   2                      {
+  60   3                  i = 0;
+  61   3                  ledval = _crol_(ledval, 1);
+  62   3              }
+  63   2                      TI = 0;
+  64   2              }
+  65   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    490    ----
+   CONSTANT SIZE    =      3    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
